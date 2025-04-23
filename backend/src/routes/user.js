@@ -125,7 +125,15 @@ userRouter.get("/bulk", authCheck, async (req, res) => {
   }
 });
 
-userRouter.get("/test", authCheck, (req, res) => res.send("hello"));
+userRouter.get("/info", authCheck, async (req, res) => {
+  const user = req.user;
+  res.status(201).json({ user });
+});
+
+userRouter.get("/users", authCheck, async (req, res) => {
+  const users = await User.find({ _id: { $ne: req.user._id } });
+  res.status(201).json({ users });
+});
 
 module.exports = {
   userRouter,
