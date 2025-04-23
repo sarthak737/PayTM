@@ -97,6 +97,31 @@ userRouter.patch("/update", authCheck, async (req, res) => {
   }
 });
 
+userRouter.get("/bulk", authCheck, async (req, res) => {
+  try {
+    const { f } = req.query;
+
+    const foundUser = await User.findOne({
+      $or: [
+        {
+          firstName: f,
+        },
+        {
+          username: f,
+        },
+      ],
+    }).select("firstName username");
+
+    return res.status(201).json({
+      users: foundUser,
+    });
+  } catch (error) {
+    return res
+      .status(403)
+      .json({ message: "Error finding user", err: error.message });
+  }
+});
+
 userRouter.get("/test", authCheck, (req, res) => res.send("hello"));
 
 module.exports = {
