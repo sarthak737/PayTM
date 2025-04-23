@@ -15,20 +15,20 @@ const Update = () => {
 
   const handleUpdate = async () => {
     try {
-      const r = await axios.patch(
+      const newD = {};
+      if (uname) newD.username = uname;
+      if (fname) newD.firstName = fname;
+      if (pass) newD.password = pass;
+      const r = await axios.post(
         "http://localhost:3001/api/v1/user/update",
-        {
-          username: uname,
-          firstName: fname,
-          password: pass,
-        },
+        newD,
         { withCredentials: true }
       );
       console.log(r);
 
       navigate("/dashboard");
     } catch (err) {
-      setErr("Error User Create");
+      setErr("Error User Update");
       setTimeout(() => {
         setErr("");
       }, 2000);
@@ -62,7 +62,7 @@ const Update = () => {
           onChange={(e) => setPass(e.target.value)}
           value={pass}
         />
-        <Button text="Sign Up" onClick={handleUpdate} />
+        <Button text="Update" onClick={handleUpdate} />
         <p className="text-sm text-red-900">{err}</p>
       </div>
     </div>

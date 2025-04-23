@@ -70,7 +70,7 @@ userRouter.post("/signin", async (req, res) => {
   }
 });
 
-userRouter.patch("/update", authCheck, async (req, res) => {
+userRouter.post("/update", authCheck, async (req, res) => {
   try {
     const { username, firstName, password } = req.body;
     const existingUser = req.user;
