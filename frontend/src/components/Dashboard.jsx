@@ -7,6 +7,7 @@ const Dashboard = () => {
   const [bal, setBal] = useState(0);
   const [name, setName] = useState("");
   const [users, setUsers] = useState([]);
+  const [showD, setShowD] = useState(false);
 
   useEffect(() => {
     const getBal = async () => {
@@ -35,17 +36,51 @@ const Dashboard = () => {
     getUsers();
   }, []);
 
+  const handleLogout = async () => {
+    const r = await axios.post(
+      "http://localhost:3001/api/v1/user/logout",
+      {},
+      { withCredentials: true }
+    );
+    navigate("/signin");
+  };
+
+  const handleEdit = async () => {
+    navigate("/update");
+  };
+
   const navigate = useNavigate();
 
   return (
     <div>
       <div className="text-xl flex justify-between items-center w-full px-10 py-4 border border-b-1 border-gray-300">
         <h2 className="font-bold">Paytm App</h2>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center relative">
           <h2 className="px-2">Hello, {name}</h2>
-          <div className="w-8 h-8 text-center text-white flex justify-center items-center rounded-full bg-gray-800">
+          <button
+            className="cursor-pointer w-8 h-8 text-center text-white flex justify-center items-center rounded-full bg-gray-800"
+            onClick={() => setShowD((prev) => !prev)}
+          >
             {name[0]}
-          </div>
+          </button>
+          {showD && (
+            <div className="absolute top-8 rounded-md text-sm px-2 py-1 right-0 flex flex-col bg-gray-200 gap-2 font-semibold">
+              <button
+                href="#"
+                className="cursor-pointer underline"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+              <button
+                href="#"
+                className="cursor-pointer underline"
+                onClick={handleEdit}
+              >
+                Edit
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div className="text-lg p-10">

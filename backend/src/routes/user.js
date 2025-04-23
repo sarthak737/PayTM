@@ -135,6 +135,11 @@ userRouter.get("/users", authCheck, async (req, res) => {
   res.status(201).json({ users });
 });
 
+userRouter.post("/logout", authCheck, async (req, res) => {
+  req.user = "";
+  res.status(201).cookie("token", "").json({ msg: "Logged out" });
+});
+
 module.exports = {
   userRouter,
 };

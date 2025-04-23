@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Heading from "./Heading.jsx";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Send = () => {
   const location = useLocation();
@@ -10,6 +11,8 @@ const Send = () => {
   const [amt, setAmt] = useState(0);
   const [err, setErr] = useState("");
   const [suc, setSuc] = useState("");
+
+  const navigate = useNavigate();
 
   const sendMoney = async () => {
     try {
@@ -22,6 +25,7 @@ const Send = () => {
       setAmt(0);
       setTimeout(() => {
         setSuc("");
+        navigate("/dashboard");
       }, 2000);
     } catch (err) {
       setErr("Transaction failed ");
