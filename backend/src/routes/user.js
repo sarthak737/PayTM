@@ -67,6 +67,36 @@ userRouter.post("/signin", async (req, res) => {
   }
 });
 
+userRouter.patch("/update", authCheck, async (req, res) => {
+  try {
+    const { username, firstName, password } = req.body;
+    const existingUser = req.user;
+    if ("username" in req.body) {
+      usernameSchema.parse(username);
+      if (username == existingUser.username) throw new Error("Already same");
+      existingUser.username = username;
+    }
+    if ("firstName" in req.body) {
+      firstNameSchema.parse(firstName);
+      if (firstName == existingUser.firstName) throw new Error("Already same");
+      existingUser.firstName = firstName;
+    }
+    if ("password" in req.body) {
+      passwordSchema.parse(password);
+      const isPassSame = await bcrypt.compare(password, existingUser.password);
+      if (isPassSame) throw new Error("Already same");
+      const newPass = await bcrypt.hash(password, 10);
+      existingUser.password = newPass;
+    }
+    await existingUser.save();
+    return res.status(201).json({ message: "User updated" });
+  } catch (error) {
+    return res
+      .status(403)
+      .json({ message: "Error update", err: error.message });
+  }
+});
+
 userRouter.get("/test", authCheck, (req, res) => res.send("hello"));
 
 module.exports = {
