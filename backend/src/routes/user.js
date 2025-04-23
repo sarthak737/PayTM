@@ -1,7 +1,7 @@
 const express = require("express");
 const userRouter = express.Router();
 const z = require("zod");
-const { User } = require("../models/user.models.js");
+const { User, Account } = require("../models/user.models.js");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../../config.js");
 const bcrypt = require("bcrypt");
@@ -22,6 +22,9 @@ userRouter.post("/signup", async (req, res) => {
 
     const newUser = new User({ firstName, username, password: hashPassword });
     const createdUSer = await newUser.save();
+    const balance = Math.floor(Math.random() * 10000) + 1;
+    const userAccount = new Account({ userId: createdUSer._id, balance });
+    await userAccount.save();
     console.log(createdUSer);
     if (!createdUSer) {
       throw new Error("Error creating user");
