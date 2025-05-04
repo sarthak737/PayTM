@@ -1,6 +1,6 @@
 import React from "react";
 
-const UserCard = ({ name, logo, onClick }) => {
+const UserCard = ({ name, logo, onClick, uname }) => {
   return (
     <div className="flex justify-between items-center mb-5">
       <div className="flex items-center gap-2">
@@ -8,6 +8,7 @@ const UserCard = ({ name, logo, onClick }) => {
           {logo}
         </div>
         <h2>{name}</h2>
+        <p className="text-xs opacity-70">({uname})</p>
       </div>
       <button
         className="cursor-pointer text-lg btn bg-black text-white px-2 py-1 rounded-md"

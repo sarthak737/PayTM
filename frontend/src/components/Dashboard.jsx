@@ -8,6 +8,7 @@ const Dashboard = () => {
   const [name, setName] = useState("");
   const [users, setUsers] = useState([]);
   const [showD, setShowD] = useState(false);
+  const [fil, setFil] = useState("");
 
   useEffect(() => {
     const getBal = async () => {
@@ -35,6 +36,18 @@ const Dashboard = () => {
     };
     getUsers();
   }, []);
+
+  useEffect(() => {
+    const filUsers = async () => {
+      const fu = await axios.get(
+        `http://localhost:3001/api/v1/user/bulk?f=${fil}`,
+        { withCredentials: true }
+      );
+      setUsers(fu.data.users);
+    };
+
+    filUsers();
+  }, [fil]);
 
   const handleLogout = async () => {
     const r = await axios.post(
@@ -91,6 +104,7 @@ const Dashboard = () => {
             type="text"
             placeholder="Search Users"
             className="border-1 rounded-md px-2 border-gray-500 w-screen"
+            onChange={(e) => setFil(e.target.value)}
           />
         </div>
         {
@@ -99,6 +113,7 @@ const Dashboard = () => {
               <UserCard
                 key={el._id}
                 name={el.firstName}
+                uname={el.username}
                 logo={el.firstName[0]}
                 onClick={() => {
                   console.log(el.username);

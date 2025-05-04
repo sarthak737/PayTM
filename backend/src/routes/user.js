@@ -104,13 +104,13 @@ userRouter.get("/bulk", authCheck, async (req, res) => {
   try {
     const { f } = req.query;
 
-    const foundUser = await User.findOne({
+    const foundUser = await User.find({
       $or: [
         {
-          firstName: f,
+          firstName: { $regex: f, $options: "i" },
         },
         {
-          username: f,
+          username: { $regex: f, $options: "i" },
         },
       ],
     }).select("firstName username");
