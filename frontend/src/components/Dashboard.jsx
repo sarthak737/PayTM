@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import UserCard from "./UserCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
+  const { setIsValid } = useAuth();
   const [bal, setBal] = useState(0);
   const [name, setName] = useState("");
   const [users, setUsers] = useState([]);
@@ -55,6 +57,7 @@ const Dashboard = () => {
       {},
       { withCredentials: true }
     );
+    setIsValid(false);
     navigate("/signin");
   };
 

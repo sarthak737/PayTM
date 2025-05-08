@@ -5,7 +5,7 @@ import InputBox from "./InputBox";
 import Button from "./Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { FaArrowLeft } from "react-icons/fa";
 const Update = () => {
   const [uname, setUname] = useState("");
   const [fname, setFname] = useState("");
@@ -38,7 +38,15 @@ const Update = () => {
   return (
     <div className="flex justify-center items-center h-screen w-full bg-[#aaa] text-center">
       <div className="bg-[#fff] p-6 rounded-md w-[40%] text-[#222]">
-        <Heading text="Update User" />
+        <div className="relative flex justify-center items-center">
+          <FaArrowLeft
+            className="absolute cursor-pointer opacity-70 left-0 top-2"
+            onClick={() => {
+              navigate("/dashboard");
+            }}
+          />
+          <Heading text="Update User" />
+        </div>
         <SubHeading text="Enter your information to update your account" />
         <InputBox
           label="Username"

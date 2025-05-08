@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Heading from "./Heading";
 import SubHeading from "./SubHeading";
 import InputBox from "./InputBox";
@@ -6,15 +6,17 @@ import Button from "./Button";
 import Bottom from "./Bottom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setIsValid } = useAuth();
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const handleSignIn = async () => {
     try {
-      const res = await axios.post(
+      await axios.post(
         "http://localhost:3001/api/v1/user/signin",
         {
           username,
@@ -22,6 +24,7 @@ const SignIn = () => {
         },
         { withCredentials: true }
       );
+      setIsValid(true);
       navigate("/dashboard");
     } catch (err) {
       setError("Wrong Credentials");

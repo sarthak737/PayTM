@@ -3,6 +3,7 @@ import Heading from "./Heading.jsx";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Send = () => {
   const location = useLocation();
@@ -38,7 +39,15 @@ const Send = () => {
   return (
     <div className="flex justify-center items-center h-screen w-full bg-[#aaa] text-center">
       <div className="bg-[#fff] p-6 rounded-md w-[40%] text-[#222]">
-        <Heading text="Send Money" />
+        <div className="relative flex justify-center items-center mb-4">
+          <FaArrowLeft
+            className="absolute cursor-pointer opacity-70 left-0 top-2"
+            onClick={() => {
+              navigate("/dashboard");
+            }}
+          />
+          <Heading text="Send Money" />
+        </div>
         <div className="flex items-center gap-2 mb-4">
           <div className="w-8 h-8 text-center text-white flex justify-center items-center rounded-full bg-green-500">
             {to[0].toUpperCase()}
