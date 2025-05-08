@@ -25,7 +25,6 @@ userRouter.post("/signup", async (req, res) => {
     const balance = Math.floor(Math.random() * 10000) + 1;
     const userAccount = new Account({ userId: createdUSer._id, balance });
     await userAccount.save();
-    console.log(createdUSer);
     if (!createdUSer) {
       throw new Error("Error creating user");
     }
